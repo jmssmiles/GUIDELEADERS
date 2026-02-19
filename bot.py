@@ -153,8 +153,14 @@ async def onboard(interaction: discord.Interaction):
         view=StartOnboardingView(),
         ephemeral=True
     )
+
+    @tree.command(name="hello", description="Test command")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message("Hello from STARTGuide 🚀", ephemeral=True)
+
 async def heartbeat():
     while True:
-        print("Heartbeat: bot process alive")
-        await asyncio.sleep(30)
+         print("Heartbeat: bot process alive")
+         await asyncio.sleep(30)
+
 client.run(TOKEN)
