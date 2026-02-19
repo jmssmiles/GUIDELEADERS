@@ -9,7 +9,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = 1473696832352944288
 ONBOARDING_LOG_CHANNEL_NAME = "onboarding-log"
 LEARNER_ROLE_NAME = "Learner"
-
+import asyncio
 intents = discord.Intents.default()
 intents.members = True  # IMPORTANT for member join + role assignment
 
@@ -126,11 +126,10 @@ class OnboardingModal(discord.ui.Modal, title="Guideleaders Onboarding"):
 @client.event
 async def on_ready():
     print(f"Logged in as {client.user}")
-
     guild = discord.Object(id=GUILD_ID)
     await tree.sync(guild=guild)
-
     print("Guild commands synced.")
+    client.loop.create_task(heartbeat())
 
 @client.event
 async def on_member_join(member: discord.Member):
@@ -154,5 +153,8 @@ async def onboard(interaction: discord.Interaction):
         view=StartOnboardingView(),
         ephemeral=True
     )
-
+async def heartbeat():
+    while True:
+        print("Heartbeat: bot process alive")
+        await asyncio.sleep(30)
 client.run(TOKEN)
