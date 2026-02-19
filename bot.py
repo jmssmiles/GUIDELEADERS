@@ -6,7 +6,7 @@ from discord import app_commands
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-GUILD_ID = None  # Optional: put your server ID as int for faster command sync
+GUILD_ID = 1473696832352944288
 ONBOARDING_LOG_CHANNEL_NAME = "onboarding-log"
 LEARNER_ROLE_NAME = "Learner"
 
@@ -125,8 +125,12 @@ class OnboardingModal(discord.ui.Modal, title="Guideleaders Onboarding"):
 # ---------- Events ----------
 @client.event
 async def on_ready():
-    await tree.sync()
     print(f"Logged in as {client.user}")
+
+    guild = discord.Object(id=GUILD_ID)
+    await tree.sync(guild=guild)
+
+    print("Guild commands synced.")
 
 @client.event
 async def on_member_join(member: discord.Member):
